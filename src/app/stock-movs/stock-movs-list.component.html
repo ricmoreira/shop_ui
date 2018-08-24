@@ -1,0 +1,65 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Stock Movements List
+        </div>
+        <div class="card-body">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Search</span>
+            </div>
+            <input id="search-box" type="text" class="form-control" placeholder="Product Code">
+          </div>
+          <table class="table table-bordered table-striped table-sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Movement Type</th>
+                <th>Document ID</th>
+                <th>Line</th>
+                <th>Quantity</th>
+                <th>Product Code</th>
+                <th>Unit of Measure</th>
+                <th>Time</th>
+                <th>Direction</th>
+                <th>Wharehouse ID</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody ng-show="stockMovs.length">
+              <tr *ngFor="let stockMov of stockMovs">
+                <td>{{stockMov.id}}</td>
+                <td>{{stockMov.MovementType}}</td>
+                <td>{{stockMov.DocumentID}}</td>
+                <td>{{stockMov.Line}}</td>
+                <td>{{stockMov.Quantity}}</td>
+                <td>{{stockMov.ProductCode}}</td>
+                <td>{{stockMov.UnitOfMeasure}}</td>
+                <td>{{stockMov.Time}}</td>
+                <td>{{stockMov.Dir}}</td>
+                <td>{{stockMov.WharehouseID}}</td>
+                <td>
+                  <span class="badge badge-success">Success</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pre class="card card-body card-header mb-3 text-center">Page: {{currentPage}}/{{totalPages}}    Items: {{totalList}}</pre>
+          <div class="row justify-content-md-center">
+            <nav>
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" (click)="loadPrev()">Prev</a></li>
+                <li class="page-item active">
+                  <a class="page-link" href="#" (click)="doNothing()">{{currentPage}}</a>
+                </li>
+                <li class="page-item"><a class="page-link" (click)="loadNext()">Next</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
