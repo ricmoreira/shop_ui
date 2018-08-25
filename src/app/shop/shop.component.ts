@@ -12,15 +12,15 @@ import { fromEvent, Observable } from 'rxjs';
 import 'rxjs/add/observable/of';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { StockMovCreate as StockMovReq } from '../../models/request/stock-movs';
-import { StockMov as StockMovRes } from '../../models/response/stock-movs';
 import 'rxjs/add/observable/forkJoin';
 import { UUID } from 'angular2-uuid';
 
 @Component({
-  templateUrl: './cash-register.component.html'
+  templateUrl: './shop.component.html',
+  styleUrls: ['./shop.component.css']
 })
 
-export class CashRegisterComponent implements AfterViewInit {
+export class ShopComponent implements AfterViewInit {
 
   private PRODUCTS_BATCH_SIZE: number = 5;
 
@@ -62,10 +62,13 @@ export class CashRegisterComponent implements AfterViewInit {
     this.cart = new Array<CartItem>();
   }
 
-  getProductByCode(productCode: string): Product {
-    return this.products.find((product) => {
-      return product.ProductCode == productCode;
+  getTotalCartProducts(): string {
+    let totalProducts = 0;
+    this.cart.forEach(item => {
+      totalProducts += item.quantity;
     });
+    
+    return String(totalProducts);
   }
 
   addProductToCart(productIndex: number) {
@@ -101,7 +104,7 @@ export class CashRegisterComponent implements AfterViewInit {
       stockMov.WharehouseID = "1"
       stockMov.DocumentID = this.documentID;
       stockMov.Line = i + 1;
-      stockMov.MovementType = "SALE";
+      stockMov.MovementType = "SALE SHOP ONLINE";
       stockMov.ProductCode = cartItem.product.ProductCode;
       stockMov.Quantity = cartItem.quantity;
 
@@ -145,29 +148,6 @@ export class CashRegisterComponent implements AfterViewInit {
     );
     // start search box type handling 
     typeaheadPD.subscribe(
-      () => { }, // success do nothing
-      ((error: HttpErrorResponse) => {
-        console.log(error)
-        this.notificationService.error(error.message);
-      })
-    );
-
-    // SEARCH BOX PRODUCT CODE
-    const searchBoxProductCode = document.getElementById('search-box-pcode');
-
-    const typeaheadPC = fromEvent(searchBoxProductCode, 'input').pipe(
-      map((e: KeyboardEvent) => (<HTMLInputElement>event.target).value),
-      filter(text => text.length > 2),
-      debounceTime(10),
-      distinctUntilChanged(),
-      switchMap(search => {
-        let filter = new Filter("ProductCode", search);
-        let req = new ListReq(this.PRODUCTS_BATCH_SIZE, 1, "ProductCode", "normal", filter);
-        return Observable.of(this.fetchList(req));
-      })
-    );
-    // start search box type handling 
-    typeaheadPC.subscribe(
       () => { }, // success do nothing
       ((error: HttpErrorResponse) => {
         console.log(error)
