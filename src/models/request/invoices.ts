@@ -6,3 +6,16 @@ export class Invoice {
     GrossTotal: number;
     TaxPayable: number;
 }
+
+export class InvoiceCreate {
+    InvoiceNo: string;
+    InvoiceDate: string;
+    SystemEntryDate: string;
+    Line: Array<Line>;
+}
+
+export class Line {
+    Quantity: number;
+    ProductCode: string;
+    UnitOfMeasure: string;
+}

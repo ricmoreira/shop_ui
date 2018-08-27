@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Invoice as ReqInvoice } from '../models/request/invoices';
+import { InvoiceCreate } from '../models/request/invoices';
 import { Invoice as RespInvoice } from '../models/response/invoices';
 import { List as ReqList} from '../models/request/list';
 import { List as ResList} from '../models/response/list';
@@ -24,7 +24,7 @@ export class InvoicesService {
   * Creates an invoice
   * @param req - Invoice Create request
   */
-  createInvoice(req: ReqInvoice): Observable<RespInvoice> {
+  createInvoice(req: InvoiceCreate): Observable<RespInvoice> {
     return this.http.post<RespInvoice>(this._invoices_Url, req, { headers: this._authService.getAdminAPIRequestHeaders() });
   }
 
